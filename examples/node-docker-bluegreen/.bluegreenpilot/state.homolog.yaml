@@ -1,0 +1,7 @@
+version: 1
+environment: homolog
+active_slot: blue
+inactive_slot: green
+last_successful_release: homolog-demo-blue
+last_switch_at: 2026-06-01T12:00:00Z
+last_snapshot: ""

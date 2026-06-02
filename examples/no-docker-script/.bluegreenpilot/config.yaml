@@ -1,0 +1,52 @@
+version: 1
+app: no-docker-script-example
+strategy: blue-green
+
+branches:
+  dev: dev
+  homolog: homolog
+  prod: main
+
+environments:
+  dev:
+    deploy_mode: script
+    strategy: single-slot
+  homolog:
+    deploy_mode: script
+    strategy: blue-green
+    data_mode: mock
+  prod:
+    deploy_mode: script
+    strategy: blue-green
+
+slots:
+  homolog:
+    blue_url: https://blue.homolog.example.com
+    green_url: https://green.homolog.example.com
+    public_url: https://homolog.example.com
+  prod:
+    blue_url: https://blue.example.com
+    green_url: https://green.example.com
+    public_url: https://example.com
+
+database:
+  homolog_data_mode: mock
+  prod_snapshot_required: true
+  migration_policy: require_snapshot
+
+state:
+  backend: server-file
+  path: /var/lib/bluegreenpilot/state.{environment}.yaml
+
+checks:
+  healthcheck_path: /health
+  smoke_commands:
+    - ./scripts/smoke.sh
+
+switch:
+  method: script
+  command: ./scripts/switch-to-{slot}.sh
+
+rollback:
+  method: script
+  command: ./scripts/switch-to-{slot}.sh

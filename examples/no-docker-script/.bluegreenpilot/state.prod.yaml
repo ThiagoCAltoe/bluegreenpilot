@@ -1,0 +1,7 @@
+version: 1
+environment: prod
+active_slot: green
+inactive_slot: blue
+last_successful_release: prod-demo-green
+last_switch_at: 2026-06-01T12:00:00Z
+last_snapshot: prod-2026-06-01T113000Z.sql

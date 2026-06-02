@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bluegreenpilot.dev/schemas/state.schema.json",
+  "title": "BlueGreenPilot Environment State",
+  "type": "object",
+  "required": ["version", "environment", "active_slot", "inactive_slot"],
+  "additionalProperties": true,
+  "properties": {
+    "version": { "type": "integer", "const": 1 },
+    "environment": { "type": "string", "minLength": 1 },
+    "active_slot": { "type": "string", "enum": ["blue", "green"] },
+    "inactive_slot": { "type": "string", "enum": ["blue", "green"] },
+    "last_successful_release": { "type": "string" },
+    "last_switch_at": { "type": "string" },
+    "last_snapshot": { "type": "string" },
+    "adoption_status": { "type": "string", "enum": ["brownfield"] },
+    "inactive_slot_status": {
+      "type": "string",
+      "enum": ["not-provisioned", "provisioned", "verified"]
+    }
+  },
+  "allOf": [
+    {
+      "not": {
+        "properties": {
+          "active_slot": { "const": "blue" },
+          "inactive_slot": { "const": "blue" }
+        },
+        "required": ["active_slot", "inactive_slot"]
+      }
+    },
+    {
+      "not": {
+        "properties": {
+          "active_slot": { "const": "green" },
+          "inactive_slot": { "const": "green" }
+        },
+        "required": ["active_slot", "inactive_slot"]
+      }
+    }
+  ]
+}

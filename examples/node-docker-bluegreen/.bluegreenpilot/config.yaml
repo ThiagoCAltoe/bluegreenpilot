@@ -1,0 +1,52 @@
+version: 1
+app: node-docker-bluegreen
+strategy: blue-green
+
+branches:
+  dev: dev
+  homolog: homolog
+  prod: main
+
+environments:
+  dev:
+    deploy_mode: local
+    strategy: single-slot
+  homolog:
+    deploy_mode: docker
+    strategy: blue-green
+    data_mode: mock
+  prod:
+    deploy_mode: docker
+    strategy: blue-green
+
+slots:
+  homolog:
+    blue_url: http://localhost:8081
+    green_url: http://localhost:8082
+    public_url: http://localhost:8080
+  prod:
+    blue_url: https://blue.example.com
+    green_url: https://green.example.com
+    public_url: https://example.com
+
+database:
+  homolog_data_mode: mock
+  prod_snapshot_required: true
+  migration_policy: require_snapshot
+
+state:
+  backend: repo
+  path: .bluegreenpilot/state.{environment}.yaml
+
+checks:
+  healthcheck_path: /health
+  smoke_commands:
+    - node --check app/index.js
+
+switch:
+  method: manual
+  command: ""
+
+rollback:
+  method: manual
+  command: ""

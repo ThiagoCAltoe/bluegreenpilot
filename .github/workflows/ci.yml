@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Run Python tests
+        run: python -m unittest discover -s tests
+
+      - name: Validate package metadata
+        run: python -c "import tomllib; tomllib.load(open('pyproject.toml','rb'))"
+
+      - name: Validate JSON schemas
+        run: |
+          python -m json.tool schemas/config.schema.json > /dev/null
+          python -m json.tool schemas/state.schema.json > /dev/null
+
+      - name: Validate example project
+        run: |
+          python -m bluegreenpilot --project examples/node-docker-bluegreen validate --env homolog --env prod
+          python -m bluegreenpilot --project examples/node-docker-bluegreen plan prod --source main
+          python -m bluegreenpilot --project examples/no-docker-script validate --env homolog --env prod
+          python -m bluegreenpilot --project examples/no-docker-script plan prod --source main
+
+      - name: Check Node example syntax
+        run: node --check examples/node-docker-bluegreen/app/index.js

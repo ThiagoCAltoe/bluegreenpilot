@@ -1,0 +1,16 @@
+services:
+  blue:
+    build: ./app
+    environment:
+      SLOT: blue
+      PORT: 3000
+    ports:
+      - "8081:3000"
+
+  green:
+    build: ./app
+    environment:
+      SLOT: green
+      PORT: 3000
+    ports:
+      - "8082:3000"

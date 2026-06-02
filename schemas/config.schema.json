@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bluegreenpilot.dev/schemas/config.schema.json",
+  "title": "BlueGreenPilot Config",
+  "type": "object",
+  "required": ["version", "app", "strategy", "environments", "state", "checks", "switch", "rollback"],
+  "additionalProperties": true,
+  "properties": {
+    "version": { "type": "integer", "const": 1 },
+    "app": { "type": "string", "minLength": 1 },
+    "strategy": { "type": "string", "enum": ["blue-green", "single-slot"] },
+    "branches": {
+      "type": "object",
+      "additionalProperties": { "type": "string", "minLength": 1 }
+    },
+    "environments": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": ["deploy_mode", "strategy"],
+        "additionalProperties": true,
+        "properties": {
+          "deploy_mode": {
+            "type": "string",
+            "enum": ["local", "docker", "no-docker", "mixed", "script", "manual", "ci"]
+          },
+          "strategy": { "type": "string", "enum": ["blue-green", "single-slot"] },
+          "data_mode": { "type": "string", "enum": ["snapshot", "mock", "empty", "manual"] }
+        }
+      }
+    },
+    "slots": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "blue_url": { "type": "string" },
+          "green_url": { "type": "string" },
+          "public_url": { "type": "string" }
+        }
+      }
+    },
+    "database": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "homolog_data_mode": { "type": "string", "enum": ["snapshot", "mock", "empty", "manual"] },
+        "prod_snapshot_required": { "type": "boolean" },
+        "migration_policy": {
+          "type": "string",
+          "enum": ["require_snapshot", "manual", "allow_safe_only"]
+        }
+      }
+    },
+    "state": {
+      "type": "object",
+      "required": ["backend"],
+      "additionalProperties": true,
+      "properties": {
+        "backend": {
+          "type": "string",
+          "enum": ["repo", "server-file", "ci-artifact", "object-storage", "manual"]
+        },
+        "path": { "type": "string", "minLength": 1 }
+      }
+    },
+    "adoption": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "mode": { "type": "string", "enum": ["brownfield"] },
+        "current_prod_slot": { "type": "string", "enum": ["blue", "green"] },
+        "inactive_slot_status": {
+          "type": "string",
+          "enum": ["not-provisioned", "provisioned", "verified"]
+        }
+      }
+    },
+    "checks": {
+      "type": "object",
+      "required": ["healthcheck_path"],
+      "additionalProperties": true,
+      "properties": {
+        "healthcheck_path": { "type": "string", "minLength": 1 },
+        "smoke_commands": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "switch": {
+      "type": "object",
+      "required": ["method"],
+      "additionalProperties": true,
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["manual", "script", "nginx", "cloudflare", "load-balancer", "ci"]
+        },
+        "command": { "type": "string" }
+      }
+    },
+    "rollback": {
+      "type": "object",
+      "required": ["method"],
+      "additionalProperties": true,
+      "properties": {
+        "method": { "type": "string", "enum": ["manual", "script", "ci"] },
+        "command": { "type": "string" }
+      }
+    }
+  }
+}
