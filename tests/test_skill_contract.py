@@ -28,6 +28,8 @@ class SkillContractTest(unittest.TestCase):
 
         self.assertEqual(values["name"], "bluegreenpilot")
         self.assertTrue(values["description"].strip('"'))
+        self.assertEqual(values["version"], "2026.6.1")
+        self.assertEqual(values["homepage"], "https://github.com/ThiagoCAltoe/bluegreenpilot")
         self.assertIn("metadata", values)
         json.loads(values["metadata"])
 

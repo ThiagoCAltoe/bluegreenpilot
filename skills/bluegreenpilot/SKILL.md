@@ -1,6 +1,8 @@
 ---
 name: bluegreenpilot
 description: "Guide safe blue-green deployments with persistent repo config, environment state, health checks, explicit switch confirmation, and rollback discipline."
+version: 2026.6.1
+homepage: https://github.com/ThiagoCAltoe/bluegreenpilot
 metadata: {"openclaw":{}}
 ---
 
