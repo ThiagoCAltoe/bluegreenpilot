@@ -265,6 +265,23 @@ AgentSkills-style systems.
 Current status: tested locally as a Codex-style skill and CLI package; designed
 for OpenClaw compatibility, with more ecosystem testing planned.
 
+## Versioning
+
+BlueGreenPilot uses OpenClaw-style CalVer for public releases:
+
+```txt
+vYYYY.M.D
+```
+
+Example: `v2026.6.1`.
+
+The project release version is separate from `.bluegreenpilot/config.yaml`
+schema version. Config and state files currently use:
+
+```yaml
+version: 1
+```
+
 ## Roadmap
 
 - Stronger YAML and JSON Schema validation.

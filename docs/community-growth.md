@@ -15,7 +15,7 @@ switch gates, and rollback-first planning.
 
 ## First Public Milestones
 
-1. Publish `v0.1.0` with the Codex/OpenClaw skill, CLI, schemas, and Docker
+1. Publish `v2026.6.1` with the Codex/OpenClaw skill, CLI, schemas, and Docker
    example.
 2. Add a no-Docker/script deployment example.
 3. Add a GitHub Actions example that validates BlueGreenPilot config on pull

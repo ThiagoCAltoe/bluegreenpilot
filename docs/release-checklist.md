@@ -28,9 +28,22 @@ Use this before the first public release.
 
 ## Versioning
 
-Start with `0.1.0`. Keep the project in alpha until:
+Use OpenClaw-style CalVer for public project releases:
+
+```txt
+YYYY.M.D
+```
+
+The first public release is `2026.6.1`, tagged as `v2026.6.1`. Keep the project
+in alpha until:
 
 - config/state schema changes are stable;
 - at least two deployment variants are covered by examples;
 - the skill has been tested in Codex and OpenClaw;
 - contributors have a clear path for adapters and state backends.
+
+Config files keep their own schema version:
+
+```yaml
+version: 1
+```
