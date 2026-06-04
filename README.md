@@ -14,8 +14,11 @@ BlueGreenPilot is not a magic deploy button. It is a guardrail layer for teams
 that want agents involved in release work without letting them invent the
 release process.
 
+Available on ClawHub: https://clawhub.ai/bluegreenpilot/bluegreenpilot
+
 ## What Ships
 
+- A published ClawHub skill: https://clawhub.ai/bluegreenpilot/bluegreenpilot
 - An AgentSkills-compatible skill at `skills/bluegreenpilot/SKILL.md`.
 - A no-dependency Python CLI for init, validation, status, and deploy planning.
 - JSON schemas for config and environment state.
@@ -97,14 +100,30 @@ See `docs/brownfield-adoption.md` for the full adoption flow.
 
 ## Skill Installation
 
-Codex-style local install:
+### ClawHub
+
+BlueGreenPilot is published on ClawHub:
+
+```bash
+npx clawhub@0.18.0 install bluegreenpilot
+```
+
+To inspect the published skill:
+
+```bash
+npx clawhub@0.18.0 inspect bluegreenpilot
+```
+
+ClawHub page: https://clawhub.ai/bluegreenpilot/bluegreenpilot
+
+### Codex-Style Local Install
 
 ```bash
 mkdir -p ~/.codex/skills
 cp -R skills/bluegreenpilot ~/.codex/skills/bluegreenpilot
 ```
 
-OpenClaw workspace install:
+### OpenClaw Workspace Install
 
 ```bash
 mkdir -p ./skills
@@ -259,11 +278,12 @@ BlueGreenPilot is built around the portable `SKILL.md` shape used by
 AgentSkills-style systems.
 
 - Codex: supported through `SKILL.md` and `agents/openai.yaml`.
-- OpenClaw: designed for OpenClaw's AgentSkills-compatible loader.
+- OpenClaw: published on ClawHub and designed for OpenClaw's
+  AgentSkills-compatible loader.
 - Other agents: usable when they can load skill-style Markdown instructions.
 
-Current status: tested locally as a Codex-style skill and CLI package; designed
-for OpenClaw compatibility, with more ecosystem testing planned.
+Current status: published on ClawHub, tested locally as a Codex-style skill and
+CLI package, and designed for broader AgentSkills-compatible systems.
 
 ## Versioning
 
