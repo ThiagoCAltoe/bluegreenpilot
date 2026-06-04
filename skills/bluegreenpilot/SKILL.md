@@ -23,15 +23,54 @@ their real environment without relying on chat memory or guessing.
 - Never assume the active slot. Read state, query the environment, or ask.
 - Never assume a project is greenfield. If `.bluegreenpilot` is missing and the
   user mentions production, first ask whether production already exists.
+- Never treat an environment as a blue-green slot. `dev`, `homolog`, `staging`,
+  and `prod` are environments; `blue` and `green` are slots inside one
+  environment.
+- Never say `homolog` is `green` or `prod` is `blue` unless config explicitly
+  models that nonstandard topology and the user confirms the risk.
+- If a project has `homolog` and `prod`, treat it as a candidate for mapping,
+  not as proof that blue-green is already implemented.
 - Stop if the state backend is unknown or unreadable.
 - Stop if brownfield adoption says the inactive production slot is not
   provisioned.
 - Stop if rollback is unknown for production.
 - Stop if database changes are involved and snapshot/migration policy is unknown.
 - Prefer read-only discovery before any write/deploy action.
-- Treat `homolog` as production-like unless config says otherwise.
+- Treat `homolog` as production-like for safety checks and data policy, but not
+  as a production traffic slot unless config explicitly says so.
 - Always produce a plan before running deployment commands.
 - Record what changed after every switch or rollback.
+
+## Environment vs Slot Model
+
+Keep environments and slots separate.
+
+- Environments are deployment stages such as `dev`, `homolog`, `staging`, and
+  `prod`.
+- Slots are parallel runtime targets inside one environment, such as `blue` and
+  `green`.
+
+Correct model:
+
+```txt
+homolog
+  single-slot, or homolog-blue/homolog-green if explicitly configured
+
+prod
+  blue: active production slot
+  green: inactive production candidate slot
+```
+
+Incorrect model:
+
+```txt
+homolog = green
+prod = blue
+```
+
+If the user says an app has homolog and prod, say it is a good candidate for
+BlueGreenPilot mapping. Do not claim blue-green exists yet. First discover
+whether production can run two equivalent slots and switch traffic between them.
 
 ## Files
 
@@ -100,8 +139,10 @@ Adopt current production first:
 1. Ask for the current production URL, deploy mode, current release/source, and
    whether the current live service should be labeled `blue` or `green`.
 2. Treat the current live service as the stable active slot.
-3. Mark the opposite slot as `not-provisioned` until the user creates an exact
-   secondary environment.
+3. Mark the opposite production slot as `not-provisioned` until the user creates
+   an equivalent secondary production slot. A homolog/staging environment does
+   not count as the inactive production slot unless the user deliberately
+   defines that topology and accepts the risk.
 4. Record `adoption.mode: brownfield` and `inactive_slot_status:
    not-provisioned`.
 5. Block deploy/switch plans until the inactive slot is provisioned and verified.

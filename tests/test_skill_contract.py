@@ -33,6 +33,14 @@ class SkillContractTest(unittest.TestCase):
         self.assertIn("metadata", values)
         json.loads(values["metadata"])
 
+    def test_skill_distinguishes_environments_from_slots(self) -> None:
+        text = (ROOT / "skills/bluegreenpilot/SKILL.md").read_text(encoding="utf-8")
+
+        self.assertIn("Never treat an environment as a blue-green slot", text)
+        self.assertIn("homolog = green", text)
+        self.assertIn("prod = blue", text)
+        self.assertIn("not as proof that blue-green is already implemented", text)
+
 
 if __name__ == "__main__":
     unittest.main()
