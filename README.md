@@ -14,11 +14,11 @@ BlueGreenPilot is not a magic deploy button. It is a guardrail layer for teams
 that want agents involved in release work without letting them invent the
 release process.
 
-Available on ClawHub: https://clawhub.ai/bluegreenpilot/bluegreenpilot
+Available on ClawHub: https://clawhub.ai/thiagocaltoe/skills/bluegreenpilot
 
 ## What Ships
 
-- A published ClawHub skill: https://clawhub.ai/bluegreenpilot/bluegreenpilot
+- A published ClawHub skill: https://clawhub.ai/thiagocaltoe/skills/bluegreenpilot
 - An AgentSkills-compatible skill at `skills/bluegreenpilot/SKILL.md`.
 - A no-dependency Python CLI for init, validation, status, and deploy planning.
 - JSON schemas for config and environment state.
@@ -114,7 +114,7 @@ To inspect the published skill:
 npx clawhub@0.18.0 inspect bluegreenpilot
 ```
 
-ClawHub page: https://clawhub.ai/bluegreenpilot/bluegreenpilot
+ClawHub page: https://clawhub.ai/thiagocaltoe/skills/bluegreenpilot
 
 ### Codex-Style Local Install
 
